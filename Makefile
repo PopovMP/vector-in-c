@@ -1,21 +1,22 @@
 OBJDIR = obj
 SRCDIR = src
 
-OBJ = $(OBJDIR)/vector.o $(OBJDIR)/test.o
+BIN = main
+OBJ = $(OBJDIR)/vector.o $(OBJDIR)/main.o
 
-CC     = /usr/bin/gcc
-CFLAGS = -Wall -Wextra -Wpedantic -std=c11
+CC   = /usr/bin/gcc
+WARN = -Wall -Wextra -Wpedantic
+STD  = -std=c11
 
-test : $(OBJ)
+all : $(BIN)
+
+$(BIN) : $(OBJ)
 	$(CC) -o $@ $(OBJ)
 
-$(OBJDIR)/vector.o : $(SRCDIR)/vector.c $(SRCDIR)/vector.h
-	$(CC) -c $(CFLAGS) -o $@ $<
-
-$(OBJDIR)/test.o : $(SRCDIR)/test.c $(SRCDIR)/vector.h
-	$(CC) -c $(CFLAGS) -o $@ $<
+$(OBJDIR)/%.o : $(SRCDIR)/%.c
+	$(CC) -c $(WARN) $(STD) -o $@ $<
 
 .PHONY : clean
 clean :
-	rm -f $(OBJ) test
+	rm -f $(OBJ) $(BIN)
 
